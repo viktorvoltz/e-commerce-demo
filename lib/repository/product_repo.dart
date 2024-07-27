@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:ecommerce/model/product_model.dart';
 import 'package:http/http.dart' as http;
 
-class ProductService {
+class ProductRepo {
   Future<List<Product>> fetchProducts() async {
     try {
       final response = await http.get(Uri.parse('https://dummyjson.com/products'));
