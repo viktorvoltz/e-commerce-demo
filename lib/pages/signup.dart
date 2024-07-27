@@ -1,6 +1,11 @@
-import 'package:ecommerce/services/auth_service.dart';
+import 'package:ecommerce/pages/widgets/custom_button.dart';
+import 'package:ecommerce/util/adaptive_spacing.dart';
+import 'package:ecommerce/util/constants.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
+import 'package:ecommerce/services/auth_service.dart';
+import 'package:ecommerce/provider/auth_provider.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -23,16 +28,26 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        leading: const Text('e-Shop'),
+        backgroundColor: ColorConstants.systemScaffoldColor,
+        title: const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'e-Shop',
+            style: TextStyle(
+                color: ColorConstants.systemBlue, fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextFormField(
                 controller: _nameController,
@@ -88,26 +103,44 @@ class _SignupScreenState extends State<SignupScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
+              SizedBox(height: 30.h),
+              CustomAuthButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    AuthService authService = AuthService();
-                    await authService.registerWithEmail(
+                    await authProvider.registerWithEmail(
                       _nameController.text.trim(),
                       _emailController.text.trim(),
                       _passwordController.text.trim(),
                     );
+                    if (authProvider.errorMessage != null) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            authProvider.errorMessage!,
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.pushNamed(context, '/product');
+                    }
                   }
                 },
-                child: const Text('Signup'),
+                text: 'Signup',
               ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  // Navigate to login screen
-                },
-                child: const Text('Already have an account? Login'),
+              SizedBox(height: 1.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Already have an account?'),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/login');
+                    },
+                    child: const Text('Login'),
+                  ),
+                ],
               ),
             ],
           ),
