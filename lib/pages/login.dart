@@ -1,4 +1,5 @@
 import 'package:ecommerce/pages/widgets/custom_button.dart';
+import 'package:ecommerce/provider/user_provider.dart';
 import 'package:ecommerce/util/adaptive_spacing.dart';
 import 'package:ecommerce/util/constants.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +38,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Text(
             'e-Shop',
             style: TextStyle(
-              color: ColorConstants.systemBlue,
-              fontWeight: FontWeight.bold
-            ),
+                color: ColorConstants.systemBlue, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -97,9 +96,16 @@ class _LoginPageState extends State<LoginPage> {
                     if (authProvider.errorMessage != null) {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(authProvider.errorMessage!)),
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            authProvider.errorMessage!,
+                          ),
+                        ),
                       );
                     } else {
+                      Provider.of<UserProvider>(context, listen: false)
+                          .fetchUser();
                       Navigator.pushNamed(context, '/product');
                     }
                   }
