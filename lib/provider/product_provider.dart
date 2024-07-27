@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 
 class ProductProvider with ChangeNotifier {
-  final ProductService _productService = ProductService();
+  final ProductRepo _productRepo = ProductRepo();
   final RemoteConfigService _remoteConfigService;
 
   ProductProvider(this._remoteConfigService);
@@ -21,7 +21,7 @@ class ProductProvider with ChangeNotifier {
   Future<void> fetchProducts() async {
     try {
       _loading = true;
-      _products = await _productService.fetchProducts();
+      _products = await _productRepo.fetchProducts();
       _loading = false;
     } catch (e) {
       _errorMessage = e.toString();
