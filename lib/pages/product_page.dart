@@ -24,8 +24,8 @@ class _ProductPageState extends State<ProductPage>
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //String name = Provider.of<UserProvider>(context, listen: false).user!.name;
       Provider.of<ProductProvider>(context, listen: false).fetchProducts();
+      // String name = Provider.of<UserProvider>(context, listen: false).user!.name;
       // ScaffoldMessenger.of(context).showSnackBar(
       //   SnackBar(
       //     behavior: SnackBarBehavior.floating,
