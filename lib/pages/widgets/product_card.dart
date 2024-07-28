@@ -20,39 +20,22 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // CachedNetworkImage(
-          //   alignment: Alignment.center,
-          //   imageUrl: product.images![0]!,
-          //   height: 120,
-          //   fit: BoxFit.cover,
-          //   progressIndicatorBuilder: (context, url, downloadProgress) =>
-          //       Shimmer.fromColors(
-          //     baseColor: Colors.grey[300]!,
-          //     highlightColor: Colors.grey[100]!,
-          //     child: Container(
-          //       width: double.infinity,
-          //       height: 120,
-          //       color: Colors.grey[300],
-          //     ),
-          //   ),
-          //   errorWidget: (context, url, error) => const Icon(Icons.error),
-          // ),
-          Image.network(
-            product.images![0]!,
+          CachedNetworkImage(
+            alignment: Alignment.center,
+            imageUrl: product.images![0]!,
             height: 120,
             fit: BoxFit.cover,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: Container(
-                  width: double.infinity,
-                  height: 120,
-                  color: Colors.grey[300],
-                ),
-              );
-            },
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: double.infinity,
+                height: 120,
+                color: Colors.grey[300],
+              ),
+            ),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
